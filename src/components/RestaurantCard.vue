@@ -10,9 +10,11 @@
       >
       <div class="card-body">
         <p class="card-text title-wrap">
-          <a href="#">
+          <router-link 
+          :to="{ name: 'restaurant', params: { id: restaurant.id }}"
+          >
             {{ restaurant.name }}
-          </a>
+          </router-link>
         </p>
         <span class="badge badge-secondary">{{ restaurant.category }}</span>
         <p class="card-text text-truncate">
@@ -29,24 +31,24 @@
           移除最愛
         </button>
         <button
-          @click.stop.prevent="addFavorite()"
           v-else
+          @click.stop.prevent="addFavorite()"
           type="button"
           class="btn btn-primary btn-border favorite mr-2"
         >
           加到最愛
         </button>
         <button
-          @click.stop.prevent="deleteLike()"
           v-if="restaurant.isLiked"
+          @click.stop.prevent="deleteLike()"
           type="button"
           class="btn btn-danger like mr-2"
         >
           Unlike
         </button>
         <button
-          @click.stop.prevent="addLike()"
           v-else
+          @click.stop.prevent="addLike()"
           type="button"
           class="btn btn-primary like mr-2"
         >
@@ -71,25 +73,25 @@ export default {
     }
   },
   methods: {
-    addFavorite() {
+    addFavorite () {
       this.restaurant = {
         ...this.restaurant,
         isFavorited: true
       }
     },
-    deleteFavorite() {
+    deleteFavorite () {
         this.restaurant = {
         ...this.restaurant,
         isFavorited: false
       }
     },
-    addLike() {
+    addLike () {
         this.restaurant = {
         ...this.restaurant,
         isLiked: true
       }
     },
-    deleteLike() {
+    deleteLike () {
         this.restaurant = {
         ...this.restaurant,
         isLiked: false
