@@ -97,7 +97,7 @@ export default {
     }
   },
   methods: {
-    handleSubmit() {
+    handleSubmit () {
       console.log('handleSubmit',JSON.stringify({
         name: this.name,
         email: this.email,

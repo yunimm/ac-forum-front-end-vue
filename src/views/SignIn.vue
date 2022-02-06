@@ -64,7 +64,7 @@ export default {
     }
   },
   methods: {
-    handleSubmit() {
+    handleSubmit () {
       // 向後端伺服器驗證使用者資料
       // 要轉成JSON格式
       console.log('handleSubmit',JSON.stringify({

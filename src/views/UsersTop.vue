@@ -76,7 +76,7 @@ export default {
     this.fetchUsers()
   },
   methods: {
-    fetchUsers() {
+    fetchUsers () {
       const {
         users
       } = dummyData
