@@ -46,13 +46,13 @@ export default {
     }
   },
   methods: {
-    addFollowed() {
+    addFollowed () {
       this.user = {
         ...this.user,
         isFollowed: true
       }
     },
-    deleteFollowed() {
+    deleteFollowed () {
         this.user = {
         ...this.user,
         isFollowed: false
