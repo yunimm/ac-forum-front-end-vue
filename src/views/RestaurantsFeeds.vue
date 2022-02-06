@@ -549,7 +549,7 @@ export default {
     this.fetchFeeds()
   },
   methods: {
-    fetchFeeds() {
+    fetchFeeds () {
       const {restaurants, comments} = dummyData
       this.restaurants = restaurants
       this.comments = comments.filter(comment => comment.Restaurant)
