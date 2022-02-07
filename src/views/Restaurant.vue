@@ -106,7 +106,7 @@ const dummyUser = {
   isAuthenticated: true
 }
 
-import RestaurantDetail from '../components/RestaurantDetail.vue'
+import RestaurantDetail from './../components/RestaurantDetail.vue'
 import RestaurantComments from '../components/RestaurantComments.vue'
 import CreateComment from '../components/CreateComment.vue'
 export default {

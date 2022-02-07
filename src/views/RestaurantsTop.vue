@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import NavTabs from '../components/NavTabs.vue'
-import RestaurantsTopCard from '../components/RestaurantsTopCard.vue'
+import NavTabs from './../components/NavTabs.vue'
+import RestaurantsTopCard from './../components/RestaurantsTopCard.vue'
 const dummyData = 
 {
   "restaurants": [

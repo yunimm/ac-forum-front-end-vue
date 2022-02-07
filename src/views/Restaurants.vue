@@ -23,10 +23,10 @@
 </template>
 
 <script>
-import NavTabs from '../components/NavTabs.vue'
-import RestaurantCard from '../components/RestaurantCard.vue'
-import RestaurantsNavPills from '../components/RestaurantsNavPills.vue'
-import RestaurantsPagination from '../components/RestaurantsPagination.vue'
+import NavTabs from './../components/NavTabs.vue'
+import RestaurantCard from './../components/RestaurantCard.vue'
+import RestaurantsNavPills from './../components/RestaurantsNavPills.vue'
+import RestaurantsPagination from './../components/RestaurantsPagination.vue'
 
 const dummyData = 
 {

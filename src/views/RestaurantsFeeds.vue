@@ -21,9 +21,9 @@
 </template>
 
 <script>
-import NavTabs from '../components/NavTabs.vue'
-import NewestRestaurants from '../components/NewestRestaurants.vue'
-import NewestComments from '../components/NewestComments.vue'
+import NavTabs from './../components/NavTabs.vue'
+import NewestRestaurants from './../components/NewestRestaurants.vue'
+import NewestComments from './../components/NewestComments.vue'
 const dummyData = 
   {
     "restaurants": [

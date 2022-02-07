@@ -15,8 +15,8 @@
   </div>
 </template>
 <script>
-import NavTabs from '../components/NavTabs.vue'
-import UserCards from '../components/UserCards.vue'
+import NavTabs from './../components/NavTabs.vue'
+import UserCards from './../components/UserCards.vue'
 
 const dummyData = 
 {
