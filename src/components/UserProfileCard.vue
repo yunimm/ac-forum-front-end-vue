@@ -15,18 +15,14 @@
         </ul>
         <p></p>
         <form action="/following/3" method="POST" style="display: contents">
-          <button
-            v-if="profile.isFollowed"
-            @click.stop.prevent="deleteFollow()"
-            type="submit"
-            class="btn btn-primary"
-          >
-            追蹤
-          </button>
-          <button 
-          v-else 
-          @click.stop.prevent="addFollow()"
-          type="submit" class="btn btn-danger">已追蹤</button>
+          <template>
+            <router-link
+              :to="{ name: 'user-edit', params: { id: profile.id } }"
+              class="btn btn-primary"
+            >
+              Edit
+            </router-link >
+          </template>
         </form>
         <p></p>
       </div>
