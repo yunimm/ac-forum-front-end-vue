@@ -1,10 +1,10 @@
 <template>
   <div class="mb-3">
     <h1>餐廳後台</h1>
-    <router-link :to="{ name: 'admin-restaurants', params: '/admin/restaurants' }">
+    <router-link to="/admin/restaurants">
     Restaurants
-    </router-link> |
-    <a href="#">Categories</a> |
-    <a href="#">Users</a>
+    </router-link>&nbsp; |
+    <router-link to="/admin/categories">Categories</router-link>&nbsp; |
+    <router-link to="/admin/users">Users</router-link>
   </div>
 </template>
