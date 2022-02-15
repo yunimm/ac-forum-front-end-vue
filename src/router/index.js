@@ -10,7 +10,7 @@ const routes = [
   {
     path:'/',
     name:'roots',
-    redirect: '/restaurants'
+    redirect: '/signin'
   },
   {
     path: '/admin',
