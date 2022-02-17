@@ -67,7 +67,7 @@ export default {
     };
   },
   methods: {
-    async handleSubmit(e) {
+    async handleSubmit() {
       try {
         if (!this.email || !this.password) {
           // 顯示錯誤提示
@@ -97,7 +97,7 @@ export default {
 
         // 轉址到首頁
         this.$router.push("/restaurants");
-      } catch (e) {
+      } catch (error) {
         this.isProssing = false;
         this.password = "";
         // 顯示錯誤提示
