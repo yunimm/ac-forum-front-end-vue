@@ -1,5 +1,7 @@
 <template>
-  <form @submit.stop.prevent="handleSubmit">
+  <form 
+  v-show="!isLoading"
+  @submit.stop.prevent="handleSubmit">
     <div class="form-group">
       <label for="name">Name</label>
       <input
@@ -10,7 +12,7 @@
         name="name"
         placeholder="Enter name"
         required
-      >
+      />
     </div>
 
     <div class="form-group">
@@ -22,19 +24,13 @@
         name="categoryId"
         required
       >
+        <option value="" selected disabled>--請選擇--</option>
         <option
-          value=""
-          selected
-          disabled
+          v-for="category in categories"
+          :key="category.id"
+          value="category.id"
         >
-          --請選擇--
-        </option>
-        <option 
-        v-for="category in categories"
-        :key="category.id"
-        value="category.id"
-        >
-        {{ category.name }}
+          {{ category.name }}
         </option>
       </select>
     </div>
@@ -48,7 +44,7 @@
         class="form-control"
         name="tel"
         placeholder="Enter telephone number"
-      >
+      />
     </div>
 
     <div class="form-group">
@@ -60,7 +56,7 @@
         class="form-control"
         placeholder="Enter address"
         name="address"
-      >
+      />
     </div>
 
     <div class="form-group">
@@ -71,7 +67,7 @@
         type="time"
         class="form-control"
         name="opening_hours"
-      >
+      />
     </div>
 
     <div class="form-group">
@@ -93,7 +89,7 @@
         class="d-block img-thumbnail mb-3"
         width="200"
         height="200"
-      >
+      />
       <input
         @change="handleFileChange"
         id="image"
@@ -101,65 +97,16 @@
         name="image"
         accept="image/*"
         class="form-control-file"
-      >
+      />
     </div>
 
-    <button
-      type="submit"
-      class="btn btn-primary"
-    >
-      送出
-    </button>
+    <button type="submit" class="btn btn-primary">送出</button>
   </form>
 </template>
 
 <script>
-const dummyData = {
-  categories: [
-    {
-      id: 1,
-      name: "中式料理",
-      createdAt: "2022-01-29T14:48:43.000Z",
-      updatedAt: "2022-01-29T14:48:43.000Z",
-    },
-    {
-      id: 2,
-      name: "日本料理",
-      createdAt: "2022-01-29T14:48:43.000Z",
-      updatedAt: "2022-01-29T14:48:43.000Z",
-    },
-    {
-      id: 3,
-      name: "義大利料理",
-      createdAt: "2022-01-29T14:48:43.000Z",
-      updatedAt: "2022-01-29T14:48:43.000Z",
-    },
-    {
-      id: 4,
-      name: "墨西哥料理",
-      createdAt: "2022-01-29T14:48:43.000Z",
-      updatedAt: "2022-01-29T14:48:43.000Z",
-    },
-    {
-      id: 5,
-      name: "素食料理",
-      createdAt: "2022-01-29T14:48:43.000Z",
-      updatedAt: "2022-01-29T14:48:43.000Z",
-    },
-    {
-      id: 6,
-      name: "美式料理",
-      createdAt: "2022-01-29T14:48:43.000Z",
-      updatedAt: "2022-01-29T14:48:43.000Z",
-    },
-    {
-      id: 7,
-      name: "複合式料理",
-      createdAt: "2022-01-29T14:48:43.000Z",
-      updatedAt: "2022-01-29T14:48:43.000Z",
-    },
-  ],
-}
+import adminAPI from "./../apis/admin";
+import { Toast } from "./../utils/helpers";
 
 export default {
   props: {
@@ -167,49 +114,60 @@ export default {
       type: Object,
       default: () => {
         return {
-          name: '',
-          tel: '',
-          address: '',
-          openingHours: '',
-          description: '',
-          image: '',
-          categoryId: '',
-        }
-      }
-    }
+          name: "",
+          tel: "",
+          address: "",
+          openingHours: "",
+          description: "",
+          image: "",
+          categoryId: "",
+        };
+      },
+    },
   },
   data() {
     return {
       categories: [],
       restaurant: {
-        ...this.initialRestaurant
-      }
-    }
+        ...this.initialRestaurant,
+      },
+      isLoading: true
+    };
   },
   created() {
-    this.fetchCategories()
+    this.fetchCategories();
   },
   methods: {
-    fetchCategories() {
-      this.categories = dummyData.categories
+    async fetchCategories() {
+      try {
+        const { data } = await adminAPI.categories.get();
+        this.categories = data.categories;
+        this.isLoading = false;
+        
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法取得餐廳類別，請稍後再試",
+        });
+      }
     },
-    handleFileChange (e) {
-    const { files } = e.target
+    handleFileChange(e) {
+      const { files } = e.target;
 
-    if (files.length === 0) {
-      // 使用者沒有選擇上傳的檔案
-      this.restaurant.image = ''
-    } else {
-      // 否則產生預覽圖
-      const imageURL = window.URL.createObjectURL(files[0])
-      this.restaurant.image = imageURL
-    }
+      if (files.length === 0) {
+        // 使用者沒有選擇上傳的檔案
+        this.restaurant.image = "";
+      } else {
+        // 否則產生預覽圖
+        const imageURL = window.URL.createObjectURL(files[0]);
+        this.restaurant.image = imageURL;
+      }
     },
-    handleSubmit (e) {
-      const form = e.target
-      const formData = new FormData(form)
-      this.$emit('after-submit', formData)
-    }
-  }
-}
+    handleSubmit(e) {
+      const form = e.target;
+      const formData = new FormData(form);
+      this.$emit("after-submit", formData);
+    },
+  },
+};
 </script>
