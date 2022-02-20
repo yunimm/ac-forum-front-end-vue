@@ -28,7 +28,7 @@
         <option
           v-for="category in categories"
           :key="category.id"
-          value="category.id"
+          :value="category.id"
         >
           {{ category.name }}
         </option>
@@ -100,7 +100,9 @@
       />
     </div>
 
-    <button type="submit" class="btn btn-primary">送出</button>
+    <button 
+    :disabled="isProcessing"
+    type="submit" class="btn btn-primary">{{ isProcessing ? "處理中..." :"送出" }}</button>
   </form>
 </template>
 
@@ -115,20 +117,25 @@ export default {
       default: () => {
         return {
           name: "",
+          categoryId: "",
           tel: "",
           address: "",
           openingHours: "",
           description: "",
           image: "",
-          categoryId: "",
         };
       },
     },
+    isProcessing: {
+      type: Boolean,
+      default: false,
+    }
   },
   data() {
     return {
       categories: [],
       restaurant: {
+        ...this.restaurant,
         ...this.initialRestaurant,
       },
       isLoading: true
@@ -136,6 +143,14 @@ export default {
   },
   created() {
     this.fetchCategories();
+  },
+  watch: {
+    initialRestaurant(newValue, oldValue) {
+      this.restaurant = {
+        ...this.restaurant,
+        ...newValue
+      }
+    }
   },
   methods: {
     async fetchCategories() {
@@ -164,9 +179,22 @@ export default {
       }
     },
     handleSubmit(e) {
+      if (!this.restaurant.name) {
+        Toast.fire({
+          icon: 'warning',
+          title: '請填寫餐廳名稱'
+        })
+        return
+      } else if (!this.restaurant.categoryId) {
+        Toast.fire({
+          icon: 'warning',
+          title: '請選擇餐廳類別'
+        })
+        return
+      }
       const form = e.target;
       const formData = new FormData(form);
-      this.$emit("after-submit", formData);
+      this.$emit('after-submit', formData);
     },
   },
 };

@@ -1,6 +1,9 @@
 <template>
   <div class="container py-5">
-    <form class="w-100" @submit.prevent.stop="handleSubmit">
+    <form
+      class="w-100"
+      @submit.prevent.stop="handleSubmit"
+    >
       <div class="text-center mb-4">
         <h1 class="h3 mb-3 font-weight-normal">
           Sign Up
@@ -10,8 +13,8 @@
       <div class="form-label-group mb-2">
         <label for="name">Name</label>
         <input
-          v-model="name"
           id="name"
+          v-model="name"
           name="name"
           type="text"
           class="form-control"
@@ -25,8 +28,8 @@
       <div class="form-label-group mb-2">
         <label for="email">Email</label>
         <input
-          v-model="email"
           id="email"
+          v-model="email"
           name="email"
           type="email"
           class="form-control"
@@ -39,8 +42,8 @@
       <div class="form-label-group mb-3">
         <label for="password">Password</label>
         <input
-          v-model="password"
           id="password"
+          v-model="password"
           name="password"
           type="password"
           class="form-control"
@@ -53,8 +56,8 @@
       <div class="form-label-group mb-3">
         <label for="password-check">Password Check</label>
         <input
-          v-model="passwordCheck"
           id="password-check"
+          v-model="passwordCheck"
           name="passwordCheck"
           type="password"
           class="form-control"
@@ -87,23 +90,66 @@
 </template>
 
 <script>
+import authorizationAPI from './../apis/authorization'
+import { Toast } from './../utils/helpers'
+
 export default {
-  data() {
+  data () {
     return {
-      name: '', 
+      name: '',
       email: '',
       password: '',
-      passwordCheck: '',
+      passwordCheck: ''
     }
   },
   methods: {
-    handleSubmit () {
-      console.log('handleSubmit',JSON.stringify({
-        name: this.name,
-        email: this.email,
-        password: this.password,
-        passwordCheck: this.passwordCheck,
-      }))
+    async handleSubmit () {
+      try {
+        if (
+          !this.name ||
+          !this.email ||
+          !this.password ||
+          !this.passwordCheck
+        ) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請確認已填寫所有欄位'
+          })
+          return
+        }
+
+        if (this.password !== this.passwordCheck) {
+          Toast.fire({
+            icon: 'warning',
+            title: '兩次輸入的密碼不同'
+          })
+          this.passwordCheck = ''
+          return
+        }
+
+        const { data } = await authorizationAPI.signUp({
+          name: this.name,
+          email: this.email,
+          password: this.password,
+          passwordCheck: this.passwordCheck
+        })
+
+        if (data.status === 'error') {
+          throw new Error(data.message)
+        }
+
+        Toast.fire({
+          icon: 'success',
+          title: data.message
+        })
+        // 成功登入後轉址到登入頁
+        this.$router.push('/signin')
+      } catch (error) {
+        Toast.fire({
+          icon: 'warning',
+          title: `無法註冊 - ${error.message}`
+        })
+      }
     }
   }
 }
